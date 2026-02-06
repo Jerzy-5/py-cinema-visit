@@ -10,27 +10,15 @@ def cinema_visit(
         hall_number: int,
         cleaner: str,
         movie: str) -> None:
-    keys = []
-    values = []
-    lista = []
-    counter = 0
-    for custom in customers:
-        for key, value in custom.items():
-            if counter % 2 == 0:
-                keys.append(value)
-                counter += 1
-            else:
-                values.append(value)
-                counter += 1
+    customer_objects = []
+    for customer_data in customers:
+        name = customer_data["name"]
+        food = customer_data["food"]
+        customer_objects.append(Customer(name=name, food=food))
 
-    slownik = dict(zip(keys, values))
-
-    for key, value in slownik.items():
-        lista.append(Customer(name=f"{key}", food=f"{value}"))
-
-    for customer in lista:
+    for customer in customer_objects:
         CinemaBar.sell_product(customer.food, customer)
 
     hall = CinemaHall(hall_number)
     cleaner1 = Cleaner(cleaner)
-    hall.movie_session(movie, lista, cleaner1)
+    hall.movie_session(movie, customer_objects, cleaner1)
